@@ -1,39 +1,31 @@
-public class CPU extends Thread {
+class CPU implements Runnable{
 
-    public boolean busy;
-    private String processorName;
-
-    private CPUProcess workingProcess;
-
-    CPU(String name) {
-        processorName = name;
+    CPUQueue queue;
+    CPU(CPUQueue q){
+        this.queue = q;
     }
-
-    public boolean isBusy(){
-        return this.busy;
-    }
-
-    public synchronized void loadProcess(CPUProcess process){
-        workingProcess = process;
-    }
-
-    @Override
     public void run(){
+        long processingTime;
         while(true) {
-            if (workingProcess != null) {
-                System.out.println("Start working: processor " + processorName + " with process #" + workingProcess.getId());
-                busy = true;
-                try {
-                    sleep(Math.abs(workingProcess.getComplexity()) * 1000 + 1300);
-                }
-                catch ( InterruptedException e ) {}
-                this.busy = false;
-                System.out.println("Finished work: processor " + processorName + " with process #" + workingProcess.getId());
-                workingProcess = null;
+            int randMin=20;
+            int randMax=80; // rand = [20,100]
+            processingTime = randMin + (int) (Math.random() * randMax);
+            try {
+                queue.get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("CPU: Processed in time " + processingTime + "\n");
+            try {
+                Thread.sleep(processingTime);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
             try {
-                sleep(3000);
-            } catch ( InterruptedException e ) {}
+                queue.delete();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
