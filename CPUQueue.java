@@ -13,19 +13,20 @@ class CPUQueue {
     }
     public synchronized void put(String element) throws InterruptedException {
         if (queue.size() == capacity) {
-            System.out.println("CPU work");
+            System.out.println("CPU busy");
+            System.out.println("Deleting new process\n");
             deleteProcess++;
             //wait();
             return;
         }
         queue.add(element);
-        System.out.println("Process added, queue size = [" + queue.size() + "]\n");
+        System.out.println("Process added\n");
         notify(); // notifyAll() for multiple CPU/CPUProcess threads
     }
 
     public synchronized String get() throws InterruptedException {
         while(queue.isEmpty()) {
-            System.out.println("Queue is EMPTY, waiting..");
+            System.out.println("Processor is NOT busy, waiting..");
             wait();
         }
         String item = queue.element();
@@ -34,12 +35,12 @@ class CPUQueue {
         return item;
     }
     public synchronized String delete() throws InterruptedException {
-        while(queue.isEmpty()) {
-            System.out.println("Queue is EMPTY, waiting..");
-            wait();
-        }
+//        while(queue.isEmpty()) {
+//            System.out.println("Queue is EMPTY, waiting..");
+//            wait();
+//        }
         String item = queue.remove();
-        //System.out.println("Process removed, queue size = [" + queue.size() + "]");
+        System.out.println("Process removed from processor");
         //notify(); // notifyAll() for multiple CPU/CPUProcess threads
         return item;
     }

@@ -12,7 +12,7 @@ class CPUProcess implements Runnable {
         long generateDelay;
         for (int i = 0; i < generateNumber; i++) {
             int randMin = 10;
-            int randMax = 40; // rand = [10,50]
+            int randMax = 50; // rand = [10,50]
             generateDelay = randMin + (int) (Math.random() * randMax);
             try {
                 Thread.sleep(generateDelay);
@@ -26,7 +26,7 @@ class CPUProcess implements Runnable {
                 e.printStackTrace();
             }
         }
-        System.out.println("No more processes. Percent delete process is  " + queue.getDeleteProcess() / (double) generateNumber);
+        System.out.println("\nNo more processes. \nPercent of deleted processes is " + queue.getDeleteProcess()*100 / (double) generateNumber+"%\n");
         try {
             Thread.sleep(200);
         } catch (InterruptedException e) {

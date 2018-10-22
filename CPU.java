@@ -8,7 +8,7 @@ class CPU implements Runnable{
         long processingTime;
         while(true) {
             int randMin=20;
-            int randMax=80; // rand = [20,100]
+            int randMax=100; // rand = [20,100]
             processingTime = randMin + (int) (Math.random() * randMax);
             try {
                 queue.get();
